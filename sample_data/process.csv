@@ -1,0 +1,6 @@
+timestamp,host,source,user,process,parent_process,command_line,event_type,severity,file_hash,ip,action
+2026-07-25T10:10:00Z,workstation-7,sysmon,alice,powershell.exe,winword.exe,"powershell.exe -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkA",process_execution,high,5f4dcc3b5aa765d61d8327deb882cf99,203.0.113.10,process start
+2026-07-25T10:11:00Z,workstation-7,sysmon,alice,C:\Users\alice\AppData\Local\Temp\updater.exe,explorer.exe,"C:\Users\alice\AppData\Local\Temp\updater.exe",process_execution,medium,,
+2026-07-25T10:12:00Z,workstation-7,security,alice,powershell.exe,explorer.exe,"powershell.exe Invoke-Command",privilege_escalation,warning,,203.0.113.10,privilege escalation denied
+2026-07-25T10:13:00Z,workstation-7,security,alice,powershell.exe,explorer.exe,"powershell.exe Start-Process",privilege_escalation,warning,,203.0.113.10,privilege escalation denied
+2026-07-25T10:14:00Z,workstation-7,security,alice,powershell.exe,explorer.exe,"powershell.exe Start-Process",privilege_escalation,warning,,203.0.113.10,privilege escalation denied

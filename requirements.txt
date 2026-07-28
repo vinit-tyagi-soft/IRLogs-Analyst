@@ -1,0 +1,4 @@
+pytest
+openai
+# Optional EVTX parser support:
+# python-evtx

@@ -1,0 +1,459 @@
+{
+  "generated_at": "2026-07-28T09:58:07.069587Z",
+  "executive_summary": "Analyzed 14 events and identified 7 notable findings. Highest-confidence issue: Encoded PowerShell execution (confidence 0.90).",
+  "scope_input_stats": {
+    "event_count": 14,
+    "finding_count": 7,
+    "event_type_distribution": {
+      "authentication": 6,
+      "process_execution": 2,
+      "privilege_escalation": 3,
+      "syslog": 3
+    },
+    "severity_distribution": {
+      "warning": 8,
+      "info": 1,
+      "high": 1,
+      "medium": 1,
+      "unknown": 3
+    },
+    "skipped_checks": [
+      "Impossible-travel check skipped (no geo coordinates in input logs)."
+    ],
+    "ingest_details": {
+      "files_seen": 3,
+      "records_ingested": 14,
+      "by_extension": {
+        ".csv": 1,
+        ".jsonl": 1,
+        ".log": 1
+      }
+    }
+  },
+  "timeline_highlights": [
+    "Timeline window: 2026-07-25 10:00:00 -> 2026-07-25 10:22:00",
+    "Distinct hosts observed: 1",
+    "Distinct users observed: 1",
+    "Top signal: Encoded PowerShell execution (high confidence)",
+    "Top signal: Suspicious parent-child process chain (high confidence)",
+    "Top signal: Authentication failure burst (medium confidence)"
+  ],
+  "correlated_evidence_graph_summary": [
+    {
+      "left_type": "host",
+      "left_value": "workstation-7",
+      "right_type": "user",
+      "right_value": "alice",
+      "count": 11
+    },
+    {
+      "left_type": "user",
+      "left_value": "alice",
+      "right_type": "ip",
+      "right_value": "203.0.113.10",
+      "count": 10
+    },
+    {
+      "left_type": "host",
+      "left_value": "workstation-7",
+      "right_type": "process",
+      "right_value": "powershell.exe",
+      "count": 4
+    },
+    {
+      "left_type": "process",
+      "left_value": "powershell.exe",
+      "right_type": "file_hash",
+      "right_value": "5f4dcc3b5aa765d61d8327deb882cf99",
+      "count": 1
+    },
+    {
+      "left_type": "host",
+      "left_value": "workstation-7",
+      "right_type": "process",
+      "right_value": "C:\\Users\\alice\\AppData\\Local\\Temp\\updater.exe",
+      "count": 1
+    }
+  ],
+  "key_findings": [
+    {
+      "finding_id": "F-PS-process.csv-2-1",
+      "title": "Encoded PowerShell execution",
+      "description": "Command line indicates encoded PowerShell payload execution.",
+      "confidence": 0.9,
+      "confidence_label": "high",
+      "category": "execution",
+      "severity": "high",
+      "evidence": [
+        "/Users/vinit/IRLogs Analyst/sample_data/process.csv:2"
+      ],
+      "related_entities": {
+        "host": [
+          "workstation-7"
+        ],
+        "user": [
+          "alice"
+        ]
+      }
+    },
+    {
+      "finding_id": "F-PC-process.csv-2-1",
+      "title": "Suspicious parent-child process chain",
+      "description": "Observed atypical chain: winword.exe -> powershell.exe.",
+      "confidence": 0.85,
+      "confidence_label": "high",
+      "category": "execution",
+      "severity": "high",
+      "evidence": [
+        "/Users/vinit/IRLogs Analyst/sample_data/process.csv:2"
+      ],
+      "related_entities": {
+        "host": [
+          "workstation-7"
+        ],
+        "process": [
+          "powershell.exe",
+          "winword.exe"
+        ]
+      }
+    },
+    {
+      "finding_id": "F-AUTH-workstation-7-alice",
+      "title": "Authentication failure burst",
+      "description": "5 failed auth events within 5 minutes for alice on workstation-7.",
+      "confidence": 0.8,
+      "confidence_label": "medium",
+      "category": "credential_access",
+      "severity": "high",
+      "evidence": [
+        "/Users/vinit/IRLogs Analyst/sample_data/auth.jsonl:1",
+        "/Users/vinit/IRLogs Analyst/sample_data/auth.jsonl:2",
+        "/Users/vinit/IRLogs Analyst/sample_data/auth.jsonl:3",
+        "/Users/vinit/IRLogs Analyst/sample_data/auth.jsonl:4",
+        "/Users/vinit/IRLogs Analyst/sample_data/auth.jsonl:5"
+      ],
+      "related_entities": {
+        "host": [
+          "workstation-7"
+        ],
+        "user": [
+          "alice"
+        ]
+      }
+    },
+    {
+      "finding_id": "F-PRIV-alice",
+      "title": "Repeated privilege escalation attempts",
+      "description": "3 failed privilege escalation attempts detected for alice.",
+      "confidence": 0.75,
+      "confidence_label": "medium",
+      "category": "privilege_escalation",
+      "severity": "high",
+      "evidence": [
+        "/Users/vinit/IRLogs Analyst/sample_data/process.csv:4",
+        "/Users/vinit/IRLogs Analyst/sample_data/process.csv:5",
+        "/Users/vinit/IRLogs Analyst/sample_data/process.csv:6"
+      ],
+      "related_entities": {
+        "user": [
+          "alice"
+        ]
+      }
+    },
+    {
+      "finding_id": "F-TEMP-process.csv-3-2",
+      "title": "Process execution from temp directory",
+      "description": "Process or command line references temp directory execution path.",
+      "confidence": 0.7,
+      "confidence_label": "medium",
+      "category": "execution",
+      "severity": "medium",
+      "evidence": [
+        "/Users/vinit/IRLogs Analyst/sample_data/process.csv:3"
+      ],
+      "related_entities": {
+        "host": [
+          "workstation-7"
+        ],
+        "process": [
+          "C:\\Users\\alice\\AppData\\Local\\Temp\\updater.exe"
+        ]
+      }
+    },
+    {
+      "finding_id": "F-PERSIST-system.log-1-1",
+      "title": "Potential persistence indicator",
+      "description": "Event content matched known persistence technique keywords.",
+      "confidence": 0.65,
+      "confidence_label": "medium",
+      "category": "persistence",
+      "severity": "medium",
+      "evidence": [
+        "/Users/vinit/IRLogs Analyst/sample_data/system.log:1"
+      ],
+      "related_entities": {
+        "host": [
+          "workstation-7"
+        ],
+        "user": []
+      }
+    },
+    {
+      "finding_id": "F-PERSIST-system.log-2-2",
+      "title": "Potential persistence indicator",
+      "description": "Event content matched known persistence technique keywords.",
+      "confidence": 0.65,
+      "confidence_label": "medium",
+      "category": "persistence",
+      "severity": "medium",
+      "evidence": [
+        "/Users/vinit/IRLogs Analyst/sample_data/system.log:2"
+      ],
+      "related_entities": {
+        "host": [
+          "workstation-7"
+        ],
+        "user": []
+      }
+    }
+  ],
+  "what_how_why_hypothesis": "Likely activity includes 3 indicators in execution, 2 indicators in persistence. This suggests adversary execution and follow-on actions supported by correlated host/user/process evidence.",
+  "iocs_extracted": {
+    "ips": [
+      "203.0.113.10"
+    ],
+    "file_hashes": [
+      "5f4dcc3b5aa765d61d8327deb882cf99"
+    ],
+    "domains": []
+  },
+  "unanswered_questions": [
+    "Were endpoint EDR alerts, DNS logs, and proxy logs available for cross-validation?"
+  ],
+  "timeline": [
+    {
+      "event_id": "auth.jsonl-1-1",
+      "timestamp": "2026-07-25T10:00:00",
+      "host": "workstation-7",
+      "source": "auth-service",
+      "user": "alice",
+      "process": null,
+      "action": "login failed",
+      "event_type": "authentication",
+      "severity": "warning",
+      "ip": "203.0.113.10",
+      "file_hash": null,
+      "parent_process": null,
+      "command_line": null,
+      "evidence_ref": "/Users/vinit/IRLogs Analyst/sample_data/auth.jsonl:1"
+    },
+    {
+      "event_id": "auth.jsonl-2-2",
+      "timestamp": "2026-07-25T10:01:00",
+      "host": "workstation-7",
+      "source": "auth-service",
+      "user": "alice",
+      "process": null,
+      "action": "login failed",
+      "event_type": "authentication",
+      "severity": "warning",
+      "ip": "203.0.113.10",
+      "file_hash": null,
+      "parent_process": null,
+      "command_line": null,
+      "evidence_ref": "/Users/vinit/IRLogs Analyst/sample_data/auth.jsonl:2"
+    },
+    {
+      "event_id": "auth.jsonl-3-3",
+      "timestamp": "2026-07-25T10:02:00",
+      "host": "workstation-7",
+      "source": "auth-service",
+      "user": "alice",
+      "process": null,
+      "action": "login failed",
+      "event_type": "authentication",
+      "severity": "warning",
+      "ip": "203.0.113.10",
+      "file_hash": null,
+      "parent_process": null,
+      "command_line": null,
+      "evidence_ref": "/Users/vinit/IRLogs Analyst/sample_data/auth.jsonl:3"
+    },
+    {
+      "event_id": "auth.jsonl-4-4",
+      "timestamp": "2026-07-25T10:03:00",
+      "host": "workstation-7",
+      "source": "auth-service",
+      "user": "alice",
+      "process": null,
+      "action": "login failed",
+      "event_type": "authentication",
+      "severity": "warning",
+      "ip": "203.0.113.10",
+      "file_hash": null,
+      "parent_process": null,
+      "command_line": null,
+      "evidence_ref": "/Users/vinit/IRLogs Analyst/sample_data/auth.jsonl:4"
+    },
+    {
+      "event_id": "auth.jsonl-5-5",
+      "timestamp": "2026-07-25T10:04:00",
+      "host": "workstation-7",
+      "source": "auth-service",
+      "user": "alice",
+      "process": null,
+      "action": "login failed",
+      "event_type": "authentication",
+      "severity": "warning",
+      "ip": "203.0.113.10",
+      "file_hash": null,
+      "parent_process": null,
+      "command_line": null,
+      "evidence_ref": "/Users/vinit/IRLogs Analyst/sample_data/auth.jsonl:5"
+    },
+    {
+      "event_id": "auth.jsonl-6-6",
+      "timestamp": "2026-07-25T10:05:00",
+      "host": "workstation-7",
+      "source": "auth-service",
+      "user": "alice",
+      "process": null,
+      "action": "login success",
+      "event_type": "authentication",
+      "severity": "info",
+      "ip": "203.0.113.10",
+      "file_hash": null,
+      "parent_process": null,
+      "command_line": null,
+      "evidence_ref": "/Users/vinit/IRLogs Analyst/sample_data/auth.jsonl:6"
+    },
+    {
+      "event_id": "process.csv-2-1",
+      "timestamp": "2026-07-25T10:10:00",
+      "host": "workstation-7",
+      "source": "sysmon",
+      "user": "alice",
+      "process": "powershell.exe",
+      "action": "process start",
+      "event_type": "process_execution",
+      "severity": "high",
+      "ip": "203.0.113.10",
+      "file_hash": "5f4dcc3b5aa765d61d8327deb882cf99",
+      "parent_process": "winword.exe",
+      "command_line": "powershell.exe -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkA",
+      "evidence_ref": "/Users/vinit/IRLogs Analyst/sample_data/process.csv:2"
+    },
+    {
+      "event_id": "process.csv-3-2",
+      "timestamp": "2026-07-25T10:11:00",
+      "host": "workstation-7",
+      "source": "sysmon",
+      "user": "alice",
+      "process": "C:\\Users\\alice\\AppData\\Local\\Temp\\updater.exe",
+      "action": null,
+      "event_type": "process_execution",
+      "severity": "medium",
+      "ip": null,
+      "file_hash": null,
+      "parent_process": "explorer.exe",
+      "command_line": "C:\\Users\\alice\\AppData\\Local\\Temp\\updater.exe",
+      "evidence_ref": "/Users/vinit/IRLogs Analyst/sample_data/process.csv:3"
+    },
+    {
+      "event_id": "process.csv-4-3",
+      "timestamp": "2026-07-25T10:12:00",
+      "host": "workstation-7",
+      "source": "security",
+      "user": "alice",
+      "process": "powershell.exe",
+      "action": "privilege escalation denied",
+      "event_type": "privilege_escalation",
+      "severity": "warning",
+      "ip": "203.0.113.10",
+      "file_hash": null,
+      "parent_process": "explorer.exe",
+      "command_line": "powershell.exe Invoke-Command",
+      "evidence_ref": "/Users/vinit/IRLogs Analyst/sample_data/process.csv:4"
+    },
+    {
+      "event_id": "process.csv-5-4",
+      "timestamp": "2026-07-25T10:13:00",
+      "host": "workstation-7",
+      "source": "security",
+      "user": "alice",
+      "process": "powershell.exe",
+      "action": "privilege escalation denied",
+      "event_type": "privilege_escalation",
+      "severity": "warning",
+      "ip": "203.0.113.10",
+      "file_hash": null,
+      "parent_process": "explorer.exe",
+      "command_line": "powershell.exe Start-Process",
+      "evidence_ref": "/Users/vinit/IRLogs Analyst/sample_data/process.csv:5"
+    },
+    {
+      "event_id": "process.csv-6-5",
+      "timestamp": "2026-07-25T10:14:00",
+      "host": "workstation-7",
+      "source": "security",
+      "user": "alice",
+      "process": "powershell.exe",
+      "action": "privilege escalation denied",
+      "event_type": "privilege_escalation",
+      "severity": "warning",
+      "ip": "203.0.113.10",
+      "file_hash": null,
+      "parent_process": "explorer.exe",
+      "command_line": "powershell.exe Start-Process",
+      "evidence_ref": "/Users/vinit/IRLogs Analyst/sample_data/process.csv:6"
+    },
+    {
+      "event_id": "system.log-1-1",
+      "timestamp": "2026-07-25T10:20:00",
+      "host": "workstation-7",
+      "source": "systemd",
+      "user": null,
+      "process": null,
+      "action": "Scheduled task created for updater service",
+      "event_type": "syslog",
+      "severity": null,
+      "ip": null,
+      "file_hash": null,
+      "parent_process": null,
+      "command_line": null,
+      "evidence_ref": "/Users/vinit/IRLogs Analyst/sample_data/system.log:1"
+    },
+    {
+      "event_id": "system.log-2-2",
+      "timestamp": "2026-07-25T10:21:00",
+      "host": "workstation-7",
+      "source": "cron",
+      "user": null,
+      "process": null,
+      "action": "run key entry modified by alice",
+      "event_type": "syslog",
+      "severity": null,
+      "ip": null,
+      "file_hash": null,
+      "parent_process": null,
+      "command_line": null,
+      "evidence_ref": "/Users/vinit/IRLogs Analyst/sample_data/system.log:2"
+    },
+    {
+      "event_id": "system.log-3-3",
+      "timestamp": "2026-07-25T10:22:00",
+      "host": "workstation-7",
+      "source": "sshd",
+      "user": null,
+      "process": null,
+      "action": "Failed password for invalid user test from 198.51.100.77 port 48420 ssh2",
+      "event_type": "syslog",
+      "severity": null,
+      "ip": null,
+      "file_hash": null,
+      "parent_process": null,
+      "command_line": null,
+      "evidence_ref": "/Users/vinit/IRLogs Analyst/sample_data/system.log:3"
+    }
+  ]
+}
