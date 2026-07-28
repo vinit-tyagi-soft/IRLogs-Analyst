@@ -32,16 +32,28 @@
 
 ## Setup
 
+Install from GitHub (recommended):
+
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install "git+https://github.com/vinit-tyagi-soft/IRLogs-Analyst.git"
+```
+
+Or clone and install locally:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e .
+# alternatively: pip install -r requirements.txt
 ```
 
 Optional EVTX support:
 
 ```bash
-pip install python-evtx
+pip install "irlogs-analyst[evtx]"
+# or: pip install python-evtx
 ```
 
 ## Usage
@@ -49,15 +61,22 @@ pip install python-evtx
 Run against one or more files/folders:
 
 ```bash
-python -m irlogs_analyst sample_data --output-dir output --write-normalized
+irlogs-analyst sample_data --output-dir output --write-normalized
+# or: python -m irlogs_analyst sample_data --output-dir output --write-normalized
 ```
 
 Enable optional AI summary:
 
 ```bash
 export OPENAI_API_KEY="your_key"
-python -m irlogs_analyst sample_data --output-dir output --use-ai-summary
+irlogs-analyst sample_data --output-dir output --use-ai-summary
 ```
+
+## Distribution
+
+Releases are published on GitHub: https://github.com/vinit-tyagi-soft/IRLogs-Analyst/releases
+
+GitHub Packages (PyPI/GHCR registry) is not configured yet; install via `pip` from the GitHub repo or a Release tag.
 
 ## Investigation Workflow
 

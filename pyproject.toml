@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "irlogs-analyst"
+version = "0.1.0"
+description = "CLI for multi-source IR log analysis: ingest, normalize, correlate, detect, and report"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "Vinit Tyagi" }]
+keywords = [
+  "incident-response",
+  "log-analysis",
+  "cybersecurity",
+  "forensics",
+  "threat-hunting",
+  "cli",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Information Technology",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Security",
+]
+dependencies = [
+  "openai",
+]
+
+[project.optional-dependencies]
+evtx = ["python-evtx"]
+dev = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/vinit-tyagi-soft/IRLogs-Analyst"
+Repository = "https://github.com/vinit-tyagi-soft/IRLogs-Analyst"
+Issues = "https://github.com/vinit-tyagi-soft/IRLogs-Analyst/issues"
+
+[project.scripts]
+irlogs-analyst = "irlogs_analyst.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["irlogs_analyst*"]
